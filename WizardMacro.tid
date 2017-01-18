@@ -1,0 +1,341 @@
+tags: $:/tags/Macro
+title: $:/plugins/inmysocks/WizardWizard/Wizard Macro
+
+\define WizardTemp() $:/temp/Wizard/$(WizardName)$
+
+\define WizardState() $:/state/Wizard/$(WizardName)$
+
+\define EndFilter() [is[system]!is[system]]
+
+\define FinishWizardButton()
+<$list
+    filter='[all[shadows+tiddlers]tag<WizardName>finish_button[True]]'
+>
+    <$transclude/>
+</$list>
+\end
+
+\define AliasEmptyMessage($FallBackName$)
+<$list
+    variable=Alias
+    filter='[is[current]get[caption]]'
+    emptyMessage='<$macrocall $name="showalias" tid=<<ContainingTiddler>> alias="""$FallBackName$"""/>'
+>
+    <$macrocall
+        $name="showalias"
+        tid=<<ContainingTiddler>>
+        alias=<<Alias>>
+    />
+</$list>
+\end
+
+\define ForwardButtonCheck()
+<$set
+    name=ListSoFar
+    value=''
+>
+    <$list
+        filter='[{!!current_step}get[forward_conditions]]'
+        variable=FullList
+        emptyMessage=<<MakeForwardButton>>
+    >
+            <<InnerForwardButtonCheck>>
+    </$list>
+</$set>
+\end
+
+\define InnerForwardButtonCheck()
+<$set
+    name=CurrentFilter
+    filter='[<FullList>removeprefix<ListSoFar>splitbefore[;]removesuffix[;]]'
+    emptyValue='[is[system]!is[system]]'
+>
+    <$list
+        filter='[<CurrentFilter>prefix<EndFilter>]'
+        variable=dummy
+    >
+        <<MakeForwardButton>>
+    </$list>
+    <$set
+        name=ListSoFar
+        filter='[<ListSoFar>addsuffix<CurrentFilter>addsuffix[;]]'
+    >
+        <$list
+            filter=<<CurrentFilter>>
+            variable=dummy
+            emptyMessage="""<$list
+                                filter='[<CurrentFilter>!prefix<EndFilter>]'
+                                variable=dummy
+                            >
+                                <$list
+                                    filter='[{!!current_step}get[unfinished_message]]'
+                                >
+                                    <$view
+                                        field='title'
+                                    />
+                                </$list>
+                            </$list>"""
+        >
+            <<InnerForwardButtonCheck>>
+        </$list>
+    </$set>
+</$set>
+\end
+
+\define MakeForwardButton()
+<$button class=wizard-forward-button>Next
+    <$action-setfield
+        $tiddler=<<WizardState>>
+        $field=current_step
+        $value=<<NextTid>>
+    />
+</$button>
+\end
+
+\define ConfigurationWizard(WizardName SortField:order class:wizard-default-class UseAlias:false)
+<div
+    class='$class$'
+>
+    <$vars
+        ContainingTiddler=<<currentTiddler>>
+        WizardName="""$WizardName$"""
+    >
+        <$tiddler
+            tiddler=<<WizardState>>
+        >
+            <div
+                class=wizard-above-wizard-div
+            >
+                <$list
+                    filter="""[all[shadows+tiddlers]tag[$WizardName$]above_wizard[True]nsort[$SortField$]]"""
+                    variable=AboveWizard
+                >
+                    <$transclude
+                        tiddler=<<AboveWizard>>
+                        mode=block
+                    />
+                </$list>
+            </div>
+            <$set
+                name=StepList
+                filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]]"""
+            >
+                <$list
+                    filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]first[]]"""
+                    variable=FirstTiddler
+                >
+                    <$list
+                        filter="""[[True]prefix[$UseAlias$]]"""
+                        variable=dummy
+                    >
+                        <$list
+                            filter="""[<currentTiddler>get[current_step]]"""
+                            emptyMessage="""<$tiddler
+                                                tiddler=<<FirstTiddler>>
+                                            >
+                                                <$macrocall
+                                                    $name=AliasEmptyMessage
+                                                    FallBackName=<<FirstTiddler>>
+                                                />
+                                            </$tiddler>"""
+                        >
+                            <$macrocall
+                                $name=AliasEmptyMessage
+                                FallBackName=<<CurrentStepx>>
+                            />
+                        </$list>
+                    </$list>
+                    <h2
+                        class=wizard-step-count
+                    >
+                        <span
+                            class=wizard-step-count-label
+                        >
+                            Step
+
+                            <span
+                                class=wizard-step-count-current-step
+                            >
+                                <$list
+                                    filter="""[<currentTiddler>get[current_step]]"""
+                                    variable=CurrentStep
+                                    emptyMessage=1
+                                >
+                                    <$count
+                                        filter='[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]allbefore:include<CurrentStep>][<FirstTiddler>]'
+                                    />
+                                </$list>
+                            </span>
+                            of
+                            <span
+                                class=wizard-step-count-total
+                            >
+                                <$count
+                                    filter=<<StepList>>
+                                />
+                            </span>:
+                        </span>
+                        <span
+                            class=wizard-step-current-step-name
+                        >
+                            <$list
+                                filter="""[<currentTiddler>get[current_step]]"""
+                                emptyMessage='<$view tiddler=<<FirstTiddler>> field=caption><$view tiddler=<<FirstTiddler>> field=title/></$view>'
+                            >
+                                <$view
+                                    field='caption'
+                                >
+                                    <$view
+                                        field='title'
+                                    />
+                                </$view>
+                            </$list>
+                        </span>
+                    </h2>
+                    <$list
+                        filter="""[<currentTiddler>get[current_step]]"""
+                        variable=CurrentStep
+                    >
+                        <span
+                            class=wizard-step-list
+                        >
+                            <$reveal
+                                type='nomatch'
+                                state='!!current_step'
+                                text=<<FirstTiddler>>
+                            >
+                                <span
+                                    class=wizard-jump-to-step
+                                >
+                                    Jump to step:
+                                </span>
+                            </$reveal>
+                            <$list filter='[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]allbefore<CurrentStep>]'>
+                                <$button class='tc-btn-invisible wizard-step-list-button'>
+                                    <$action-setfield
+                                        $tiddler=<<WizardState>>
+                                        $field=current_step
+                                        $value=<<currentTiddler>>
+                                    />
+                                    <$count
+                                        filter='[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]allbefore:include<currentTiddler>][<FirstTiddler>]'
+                                    />
+                                </$button>
+                            </$list>
+                        </span>
+                    </$list>
+                    <div
+                        class=wizard-slide-box
+                    >
+                        <$transclude
+                            tiddler={{!!current_step}}
+                            mode=block
+                        >
+                            <$transclude
+                                tiddler=<<FirstTiddler>>
+                                mode=block
+                            />
+                        </$transclude>
+                    </div>
+                    <br>
+                    <$set
+                        name=SecondTiddler
+                        filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]after<FirstTiddler>]"""
+                    >
+                        <$set
+                            name=NextTiddler
+                            filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]after{!!current_step}]"""
+                            emptyValue=<<SecondTiddler>>
+                        >
+                            <$set
+                                name=PreviousTiddler
+                                filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]before{!!current_step}]"""
+                            >
+                                <$list
+                                    filter=<<PreviousTiddler>>
+                                    variable=PreviousTid
+                                >
+                                    <$button class=wizard-back-button>Back
+                                        <$action-setfield
+                                            $tiddler=<<WizardState>>
+                                            $field=current_step
+                                            $value=<<PreviousTid>>
+                                        />
+                                    </$button>
+                                </$list>
+                                <$list
+                                    filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]last[]]"""
+                                    variable=LastTiddler
+                                >
+                                    <$reveal
+                                        type='nomatch'
+                                        state="""!!current_step"""
+                                        text=<<LastTiddler>>
+                                    >
+                                        <$list
+                                            filter=<<NextTiddler>>
+                                            variable=NextTid
+                                        >
+                                            <<ForwardButtonCheck>>
+                                        </$list>
+                                    </$reveal>
+                                    <$reveal
+                                        type='match'
+                                        state="""!!current_step"""
+                                        text=<<LastTiddler>>
+                                    >
+                                        <<FinishWizardButton>>
+                                    </$reveal>
+                                </$list>
+                            </$set>
+                        </$set>
+                    </$set>
+                </$list>
+            </$set>
+            <div
+                class=wizard-below-wizard-div
+            >
+                <$list
+                    filter="""[all[shadows+tiddlers]tag<WizardName>below_wizard[True]nsort[$SortField$]]"""
+                    variable=BelowWizard
+                >
+                    <$transclude
+                        tiddler=<<BelowWizard>>
+                        mode=block
+                    />
+                </$list>
+            </div>
+        </$tiddler>
+    </$vars>
+</div>
+\end
+
+The simplest description for this is a slide show. You give a tag and then you can move forward and backward through a list of tiddlers with that tag.
+
+Usage:
+
+First go to [[$:/plugins/inmysocks/WizardWizard/Wizard Setup]] and set up your wizard. As part of that setup you will give your wizard a name, then anywhere you put `<<ConfigurationWizard WizardName>>` (replace `WizardName` with the name you chose) it will display your wizard.
+
+```
+<<ConfigurationWizard WizardName SortField class>>
+```
+
+|!~WizardName |The name of your wizard. Different wizards need different names. |
+|!~SortField |The field that is used to order your steps. Defaults to `order`. |
+|!class |An optional css class, see below for more information. |
+|!UseAlias |If set to `True` than the tiddler containing the wizard will show the caption of the current step instead of the containing tiddler title. If the step tiddler doesn't have a caption than the step tiddler title is used instead. Defaults to `false`. |
+
+In the tiddlers for each step of the wizard you have access to some special helper macros. These macros only actually function in the wizard itself, so if you open up one of the tiddlers for a specific step these macros won't function as expected.
+
+*`<<WizardTemp>>` is a temporary tiddler for storing input in each step, so for example if you have `<$edit-text tiddler=<<WizardTemp>> field=name/>` in one step than you can access it in other places (like for the done button) by doing something like `<$tiddler tiddler=<<WizardTemp>>>{{!!name}}</$tiddler>`. Hopefully I will get better examples.
+*`<<WizardState>>` is a state tiddler for storing state information about the wizard. The name of the tiddler for the current step is stored in the `current_step` field of this tiddler. You can use it to store other state information or if you wish to manipulate the current step you can change the contents of the field. If you put anything other than the name of a tiddler that is part of the wizard as the `current_step` than clicking on the `Forward` button will bring you to the second step in the wizard.
+
+!!Making a finished button
+
+When you are on the last step the `Forward` button will not appear. Instead you can create a tiddler tagged with the same tag as everything else and put a button inside that tiddler with whatever you want to happen when you are finished with the wizard. Then give that tiddler the field `finish_button` with the contents `True` (this can be done using the [[$:/plugins/inmysocks/WizardWizard/Wizard Setup]]), then that button will be displayed in place of the forward button when you are on the last step.
+
+You can make it something other than a button if you wish.
+
+!!Changing the appearance
+
+Look at [[$:/plugins/inmysocks/WizardWizard/stylesheets.tid]] for a stylesheet you can copy and edit to change the appearance.

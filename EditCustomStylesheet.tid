@@ -1,0 +1,237 @@
+title: $:/plugins/inmysocks/WizardWizard/EditCustomStylesheet
+wizard-custom-class: This class affects the entire wizard
+wizard-above-wizard-div: This class affects content displayed above each slide
+wizard-below-wizard-div: This class affects content displayed below each slide
+wizard-step-count: This class affects the 'Step m of n: Step Label' part of the wizard
+wizard-step-count-label: This class affects the 'Step m of n:' part of the count
+wizard-step-count-current-step: This class affects the display of the current step number of the count
+wizard-step-count-total: This class affects the display of the total number of steps display of the count
+wizard-step-current-step-name: This class affects the display of the name of the current step
+wizard-step-list: This class affects the 'Jump to step: 1 2 3' part of the wizard
+wizard-jump-to-step: This class affects the text 'Jump to step:' part of the step list
+wizard-step-list-button: This class affects the number list of the step list
+wizard-slide-box: This class affects the box that contains the current slide
+wizard-back-button: This class affects the back button
+wizard-forward-button: This class affects the forward button
+
+\define PickClassToEdit()
+<$select
+    tiddler='$:/state/WizardWizard/EditCustomStylesheet/PickClassToEdit'
+    field=selected_class
+>
+    <option
+        value=''
+    >
+        --
+    </option>
+    <$list
+        filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!class_list]]'
+        variable=ClassName
+    >
+        <$list
+            filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ClassName>!prefix[True]] [[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]!has<ClassName>]'
+            variable=dummy
+        >
+            <option>
+                <<ClassName>>
+            </option>
+        </$list>
+    </$list>
+</$select>
+<$button>
+    Add
+    <$action-setfield
+        $tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+        $field={{$:/state/WizardWizard/EditCustomStylesheet/PickClassToEdit!!selected_class}}
+        $value=True
+    />
+    <$action-setfield
+        $tiddler='$:/state/WizardWizard/EditCustomStylesheet/PickClassToEdit'
+        selected_class=''
+    />
+</$button>
+\end
+
+\define EditPropertyInput()
+<$list
+    filter='[<PropertyName>addprefix[-]addprefix<ClassName>addprefix[wizard-custom-class-]]'
+    variable=FieldName
+>
+    <!-- Display gets some special things -->
+    <$list
+        filter='[<FieldName>suffix[display]]'
+        variable=dummy
+    >
+        <$select
+            field=<<FieldName>>
+            style='width:100%'
+        >
+            <option
+                value=''
+            >
+                --
+            </option>
+            <$list
+                filter='none inline block inline-block initial inherit'
+                variable=OptionName
+            >
+                <option>
+                    <<OptionName>>
+                </option>
+            </$list>
+        </$select>
+    </$list>
+    <!-- Color gets a color picker -->
+    <$list
+        filter='[<FieldName>suffix[color]]'
+        variable=dummy
+    >
+        <$edit-text field=<<FieldName>> type='color' style='width:100%'/>
+    </$list>
+    <!-- Other properties get text fields -->
+    <$list
+        filter='[<FieldName>!suffix[display]!suffix[color]]'
+        variable=dummy
+    >
+        <$edit-text field=<<FieldName>> class='tc-edit-texteditor'/>
+    </$list>
+</$list>
+\end
+
+\define DisplayClass()
+<tr>
+    <th
+        colspan=3
+        style='border-top:solid 1px black'
+    >
+        Class: <<ClassName>><br>
+        <$list
+            filter='[[$:/plugins/inmysocks/WizardWizard/EditCustomStylesheet]get<ClassName>]'
+        >
+            <$view
+                field='title'
+            />
+        </$list>
+    </th>
+</tr>
+<tr>
+    <th
+        colspan=3
+    >
+        Add Property:
+        <$select
+            tiddler='$:/state/WizardWizard/EditCustomStylesheet/PickPropertyToEdit'
+            field=selected_property
+        >
+            <option
+                value=''
+            >
+                --
+            </option>
+            <$list
+                filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!property_list]]'
+                variable=PropertyName
+            >
+                <$list
+                    filter='[<PropertyName>addprefix[-]addprefix<ClassName>addprefix[show-]]'
+                    variable=ShowPropertyName
+                >
+                    <$list
+                        filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ShowPropertyName>!prefix[True]] [[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]!has<ShowPropertyName>]'
+                        variable=dummy
+                    >
+                        <option
+                            value=<<ShowPropertyName>>
+                        >
+                            <<PropertyName>>
+                        </option>
+                    </$list>
+                </$list>
+            </$list>
+        </$select>
+        <$button>
+            Add
+            <$action-setfield
+                $tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+                $field={{$:/state/WizardWizard/EditCustomStylesheet/PickPropertyToEdit!!selected_property}}
+                $value=True
+            />
+            <$action-setfield
+                $tiddler='$:/state/WizardWizard/EditCustomStylesheet/PickPropertyToEdit'
+                selected_property=''
+            />
+        </$button>
+    </th>
+</tr>
+<$list
+    filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!property_list]]'
+    variable=PropertyName
+>
+    <$list
+        filter='[<PropertyName>addprefix[-]addprefix<ClassName>addprefix[show-]]'
+        variable=ShowPropertyName
+    >
+        <$list
+            filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ShowPropertyName>prefix[True]]'
+            variable=dummy
+        >
+            <tr>
+                <td>
+                    <$view
+                        tiddler=<<PropertyName>>
+                        field='title'
+                    />
+                </td>
+                <td>
+                    <<EditPropertyInput>>
+                </td>
+                <td>
+                    <$button>
+                        Remove
+                        <$action-setfield
+                            $tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+                            $field=<<ShowPropertyName>>
+                            $value=False
+                        />
+                    </$button>
+                </td>
+            </tr>
+        </$list>
+    </$list>
+</$list>
+\end
+
+Select which class you wish to edit, then click `Add`. Then you can add specific properties to each class and set their values using the table below.
+
+<<PickClassToEdit>>
+
+<$tiddler
+    tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+>
+    <table
+        style='width:100%;border-bottom:solid 1px black;border-top:solid 1px black;'
+    >
+        <$list
+            filter='[[$:/plugins/inmysocks/WizardWizard/CustomStylesheet]get[parent_class]]'
+            variable=ClassName
+        >
+            <<DisplayClass>>
+        </$list>
+    </table>
+
+    <table
+        style='width:100%;border-bottom:solid 1px black'
+    >
+        <$list
+            filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!class_list]]'
+            variable=ClassName
+        >
+            <$list
+                filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ClassName>prefix[True]]'
+                variable=dummy
+            >
+                <<DisplayClass>>
+            </$list>
+        </$list>
+    </table>
+</$tiddler>

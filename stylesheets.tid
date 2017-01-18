@@ -1,0 +1,137 @@
+tags: $:/tags/Stylesheet
+title: $:/plugins/inmysocks/WizardWizard/stylesheets
+
+/*
+You can use this as a template to make new classes to change how your wizard looks and then use the class attribute when calling the macro and specifying your new class.
+To do this copy this tiddler and in the new copy replace everywhere it says wizard-default-class with whatever you want to name your class.
+
+Some useful bits:
+
+to hide a section (for example if you don't wan't to display the buttons to jump to a section) find the part in your tiddler for that section (in the example it would be .wizard-default-class .wizard-step-list) and then put
+
+display:none;
+
+inside it. Inside means between the opening and closing curly braces. So you end up with
+
+.wizard-default-class .wizard-step-list {
+display:none;
+}
+
+
+Common things to change:
+
+font-size - changes the size of the font. You give numbers followed by px, example: font-size:12px;
+
+color - changes the font color. Give a word like 'blue' or a hex value like '#ffffff'
+
+background-color - changes the background color, same inputs as color
+
+if you want more search online for css properties.
+*/
+
+/*
+This gets applied to everything in the wizard
+*/
+.wizard-default-class {
+
+}
+
+/*
+This gets applied to the content of the tiddlers with the field above_wizard set to True
+*/
+.wizard-default-class .wizard-above-wizard-div {
+
+}
+
+/*
+This gets applied to the content of the tiddlers with the field below_wizard set to True
+*/
+.wizard-default-class .wizard-below-wizard-div {
+
+}
+
+/*
+This gets applied to the 'Step 1 of 6: Welcome!' part
+*/
+.wizard-default-class .wizard-step-count {
+
+}
+
+/*
+This gets applied to only the label part, so 'Step 1 of 6:' in the previous example
+*/
+.wizard-default-class .wizard-step-count .wizard-step-count-label {
+
+}
+
+/*
+This gets applied to only the number showing the current step, so the '1' in the previous example
+*/
+.wizard-default-class .wizard-step-count .wizard-step-count-label .wizard-step-count-current-step {
+
+}
+
+/*
+This gets applied to only the number showing the total number of steps, so the '6' in the previous example
+*/
+.wizard-default-class .wizard-step-count .wizard-step-count-label .wizard-step-count-total {
+
+}
+
+/*
+This gets applied to the name of the current step, so 'Welcome!' in the example
+*/
+.wizard-default-class .wizard-step-count .wizard-step-count-label .wizard-step-current-step-name {
+
+}
+
+/*
+This gets applied to the list showing the numbers to go to previous steps, the 'Jump to step: 1 2 3 4' part
+*/
+.wizard-default-class .wizard-step-list {
+
+}
+
+/*
+This gets applied to the 'Jump to step:' text only
+*/
+.wizard-default-class .wizard-step-list .wizard-jump-to-step {
+
+}
+
+/*
+This gets applied to the buttons themselves (the 1, 2, etc. that you can click on)
+*/
+.wizard-default-class .wizard-step-list .wizard-step-list-button {
+    color:#5778d8;
+}
+
+/*
+This is for the same buttons, but it takes effect when you hover over them.
+*/
+.wizard-default-class .wizard-step-list .wizard-step-list-button:hover {
+    text-decoration: underline;
+}
+
+/*
+This is the box around the content that changes for each step.
+*/
+.wizard-default-class .wizard-slide-box {
+    border:solid lightgrey 1px;
+    padding:10px;
+    box-shadow:5px 5px 5px #888888;
+}
+
+/*
+This gets applied to the back button
+*/
+.wizard-default-class .wizard-back-button {
+
+}
+
+/*
+This gets applied to the forward button
+*/
+.wizard-default-class .wizard-forward-button {
+
+}

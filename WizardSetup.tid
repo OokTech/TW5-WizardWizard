@@ -1,0 +1,77 @@
+title: $:/plugins/inmysocks/WizardWizard/Wizard Setup
+
+This is the setup for the wizard wizard!
+
+You give a tag you want to use, then any tiddlers tagged with that tag will be part of the wizard. Tiddlers can be set to display so that you can page through them. You can also set a tiddler to display above the others as an unchanging header, or below everything else as a footer.
+
+First, enter the tag you want to use:
+<$edit-text tiddler='$:/temp/Wizard Setup' field='wizard_name' class='tc-edit-texteditor'/>
+
+Now check the boxes next to the tiddlers you want to use as headers or footers (if any) and set the order. If you have a button you wish to use as the finish button (the button that appears instead of the `Forward` button when on the last step) put it in a tiddler tagged with the same tag and check the `Finished Button` box next to that tiddler in the table below.
+
+Here are the tiddlers that currently have the tag:
+
+<table
+    style='width:100%'
+>
+    <tr>
+        <th>
+            Header
+        </th>
+        <th>
+            Footer
+        </th>
+        <th>
+            Finished Button
+        </th>
+        <th>
+            Tiddler Name
+        </th>
+        <th>
+            Order
+        </th>
+    </tr>
+    <$list
+        filter='[tag{$:/temp/Wizard Setup!!wizard_name}]'
+        emptyMessage='There are no tiddlers with that tag.'
+    >
+        <tr>
+            <td>
+                <$checkbox
+                    field='above_wizard'
+                    checked='True'
+                    unchecked=''
+                />
+            </td>
+            <td>
+                <$checkbox
+                    field='below_wizard'
+                    checked='True'
+                    unchecked=''
+                />
+            </td>
+            <td>
+                <$checkbox
+                    field='finish_button'
+                    checked='True'
+                    unchecked=''
+                />
+            </td>
+            <td>
+                <$view
+                    field='caption'
+                >
+                    <$view
+                        field='title'
+                    />
+                </$view>
+            </td>
+            <td>
+                <$edit-text
+                    field='order'
+                    class='tc-edit-texteditor'
+                />
+            </td>
+        </tr>
+    </$list>
+</table>
