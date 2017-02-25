@@ -1,5 +1,5 @@
 tags: $:/tags/Stylesheet
-title: $:/plugins/inmysocks/WizardWizard/stylesheets
+title: $:/plugins/OokTech/WizardWizard/stylesheets
 
 /*
 You can use this as a template to make new classes to change how your wizard looks and then use the class attribute when calling the macro and specifying your new class.

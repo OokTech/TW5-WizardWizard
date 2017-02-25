@@ -1,5 +1,5 @@
 tags: $:/tags/Macro
-title: $:/plugins/inmysocks/WizardWizard/Wizard Macro
+title: $:/plugins/OokTech/WizardWizard/Wizard Macro
 
 \define WizardTemp() $:/temp/Wizard/$(WizardName)$
 
@@ -314,7 +314,7 @@ The simplest description for this is a slide show. You give a tag and then you c
 
 Usage:
 
-First go to [[$:/plugins/inmysocks/WizardWizard/Wizard Setup]] and set up your wizard. As part of that setup you will give your wizard a name, then anywhere you put `<<ConfigurationWizard WizardName>>` (replace `WizardName` with the name you chose) it will display your wizard.
+First go to [[$:/plugins/OokTech/WizardWizard/Wizard Setup]] and set up your wizard. As part of that setup you will give your wizard a name, then anywhere you put `<<ConfigurationWizard WizardName>>` (replace `WizardName` with the name you chose) it will display your wizard.
 
 ```
 <<ConfigurationWizard WizardName SortField class>>
@@ -332,10 +332,10 @@ In the tiddlers for each step of the wizard you have access to some special help
 
 !!Making a finished button
 
-When you are on the last step the `Forward` button will not appear. Instead you can create a tiddler tagged with the same tag as everything else and put a button inside that tiddler with whatever you want to happen when you are finished with the wizard. Then give that tiddler the field `finish_button` with the contents `True` (this can be done using the [[$:/plugins/inmysocks/WizardWizard/Wizard Setup]]), then that button will be displayed in place of the forward button when you are on the last step.
+When you are on the last step the `Forward` button will not appear. Instead you can create a tiddler tagged with the same tag as everything else and put a button inside that tiddler with whatever you want to happen when you are finished with the wizard. Then give that tiddler the field `finish_button` with the contents `True` (this can be done using the [[$:/plugins/OokTech/WizardWizard/Wizard Setup]]), then that button will be displayed in place of the forward button when you are on the last step.
 
 You can make it something other than a button if you wish.
 
 !!Changing the appearance
 
-Look at [[$:/plugins/inmysocks/WizardWizard/stylesheets.tid]] for a stylesheet you can copy and edit to change the appearance.
+Look at [[$:/plugins/OokTech/WizardWizard/stylesheets.tid]] for a stylesheet you can copy and edit to change the appearance.

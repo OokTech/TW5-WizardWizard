@@ -1,4 +1,4 @@
-title: $:/plugins/inmysocks/WizardWizard/EditCustomStylesheet
+title: $:/plugins/OokTech/WizardWizard/EditCustomStylesheet
 wizard-custom-class: This class affects the entire wizard
 wizard-above-wizard-div: This class affects content displayed above each slide
 wizard-below-wizard-div: This class affects content displayed below each slide
@@ -25,11 +25,11 @@ wizard-forward-button: This class affects the forward button
         --
     </option>
     <$list
-        filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!class_list]]'
+        filter='[list[$:/plugins/OokTech/WizardWizard/CustomStylesheet!!class_list]]'
         variable=ClassName
     >
         <$list
-            filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ClassName>!prefix[True]] [[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]!has<ClassName>]'
+            filter='[[$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings]get<ClassName>!prefix[True]] [[$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings]!has<ClassName>]'
             variable=dummy
         >
             <option>
@@ -41,7 +41,7 @@ wizard-forward-button: This class affects the forward button
 <$button>
     Add
     <$action-setfield
-        $tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+        $tiddler='$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings'
         $field={{$:/state/WizardWizard/EditCustomStylesheet/PickClassToEdit!!selected_class}}
         $value=True
     />
@@ -106,7 +106,7 @@ wizard-forward-button: This class affects the forward button
     >
         Class: <<ClassName>><br>
         <$list
-            filter='[[$:/plugins/inmysocks/WizardWizard/EditCustomStylesheet]get<ClassName>]'
+            filter='[[$:/plugins/OokTech/WizardWizard/EditCustomStylesheet]get<ClassName>]'
         >
             <$view
                 field='title'
@@ -129,7 +129,7 @@ wizard-forward-button: This class affects the forward button
                 --
             </option>
             <$list
-                filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!property_list]]'
+                filter='[list[$:/plugins/OokTech/WizardWizard/CustomStylesheet!!property_list]]'
                 variable=PropertyName
             >
                 <$list
@@ -137,7 +137,7 @@ wizard-forward-button: This class affects the forward button
                     variable=ShowPropertyName
                 >
                     <$list
-                        filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ShowPropertyName>!prefix[True]] [[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]!has<ShowPropertyName>]'
+                        filter='[[$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings]get<ShowPropertyName>!prefix[True]] [[$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings]!has<ShowPropertyName>]'
                         variable=dummy
                     >
                         <option
@@ -152,7 +152,7 @@ wizard-forward-button: This class affects the forward button
         <$button>
             Add
             <$action-setfield
-                $tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+                $tiddler='$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings'
                 $field={{$:/state/WizardWizard/EditCustomStylesheet/PickPropertyToEdit!!selected_property}}
                 $value=True
             />
@@ -164,7 +164,7 @@ wizard-forward-button: This class affects the forward button
     </th>
 </tr>
 <$list
-    filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!property_list]]'
+    filter='[list[$:/plugins/OokTech/WizardWizard/CustomStylesheet!!property_list]]'
     variable=PropertyName
 >
     <$list
@@ -172,7 +172,7 @@ wizard-forward-button: This class affects the forward button
         variable=ShowPropertyName
     >
         <$list
-            filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ShowPropertyName>prefix[True]]'
+            filter='[[$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings]get<ShowPropertyName>prefix[True]]'
             variable=dummy
         >
             <tr>
@@ -189,7 +189,7 @@ wizard-forward-button: This class affects the forward button
                     <$button>
                         Remove
                         <$action-setfield
-                            $tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+                            $tiddler='$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings'
                             $field=<<ShowPropertyName>>
                             $value=False
                         />
@@ -206,13 +206,13 @@ Select which class you wish to edit, then click `Add`. Then you can add specific
 <<PickClassToEdit>>
 
 <$tiddler
-    tiddler='$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings'
+    tiddler='$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings'
 >
     <table
         style='width:100%;border-bottom:solid 1px black;border-top:solid 1px black;'
     >
         <$list
-            filter='[[$:/plugins/inmysocks/WizardWizard/CustomStylesheet]get[parent_class]]'
+            filter='[[$:/plugins/OokTech/WizardWizard/CustomStylesheet]get[parent_class]]'
             variable=ClassName
         >
             <<DisplayClass>>
@@ -223,11 +223,11 @@ Select which class you wish to edit, then click `Add`. Then you can add specific
         style='width:100%;border-bottom:solid 1px black'
     >
         <$list
-            filter='[list[$:/plugins/inmysocks/WizardWizard/CustomStylesheet!!class_list]]'
+            filter='[list[$:/plugins/OokTech/WizardWizard/CustomStylesheet!!class_list]]'
             variable=ClassName
         >
             <$list
-                filter='[[$:/settings/plugins/inmysocks/WizardWizard/CustomStylesheetSettings]get<ClassName>prefix[True]]'
+                filter='[[$:/settings/plugins/OokTech/WizardWizard/CustomStylesheetSettings]get<ClassName>prefix[True]]'
                 variable=dummy
             >
                 <<DisplayClass>>
