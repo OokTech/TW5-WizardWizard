@@ -83,7 +83,10 @@ title: $:/plugins/OokTech/WizardWizard/Wizard Macro
 \end
 
 \define MakeForwardButton()
-<$button class=wizard-forward-button>Next
+<$button
+    class=wizard-forward-button
+>
+    Next
     <$action-setfield
         $tiddler=<<WizardState>>
         $field=current_step
@@ -180,7 +183,7 @@ title: $:/plugins/OokTech/WizardWizard/Wizard Macro
                         >
                             <$list
                                 filter="""[<currentTiddler>get[current_step]]"""
-                                emptyMessage='<$view tiddler=<<FirstTiddler>> field=caption><$view tiddler=<<FirstTiddler>> field=title/></$view>'
+                                emptyMessage="""<$view tiddler=<<FirstTiddler>> field=caption><$view tiddler=<<FirstTiddler>> field=title/></$view>"""
                             >
                                 <$view
                                     field='caption'
@@ -210,15 +213,19 @@ title: $:/plugins/OokTech/WizardWizard/Wizard Macro
                                     Jump to step:
                                 </span>
                             </$reveal>
-                            <$list filter='[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]allbefore<CurrentStep>]'>
-                                <$button class='tc-btn-invisible wizard-step-list-button'>
+                            <$list
+                                filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]allbefore<CurrentStep>]"""
+                            >
+                                <$button
+                                    class='tc-btn-invisible wizard-step-list-button'
+                                >
                                     <$action-setfield
                                         $tiddler=<<WizardState>>
                                         $field=current_step
                                         $value=<<currentTiddler>>
                                     />
                                     <$count
-                                        filter='[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]allbefore:include<currentTiddler>][<FirstTiddler>]'
+                                        filter="""[all[shadows+tiddlers]tag<WizardName>!above_wizard[True]!finish_button[True]!below_wizard[True]nsort[$SortField$]allbefore:include<currentTiddler>][<FirstTiddler>]"""
                                     />
                                 </$button>
                             </$list>
@@ -255,7 +262,10 @@ title: $:/plugins/OokTech/WizardWizard/Wizard Macro
                                     filter=<<PreviousTiddler>>
                                     variable=PreviousTid
                                 >
-                                    <$button class=wizard-back-button>Back
+                                    <$button
+                                        class=wizard-back-button
+                                    >
+                                        Back
                                         <$action-setfield
                                             $tiddler=<<WizardState>>
                                             $field=current_step

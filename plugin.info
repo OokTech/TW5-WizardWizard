@@ -1,7 +1,7 @@
 {
 	"title": "$:/plugins/OokTech/WizardWizard",
 	"description": "A plugin to help create setup wizards or slideshows",
-	"author": "inmysocks",
+	"author": "OokTech",
 	"version": "0.0.3",
 	"core-version": ">=5.1.0",
 	"source": "https://github.com/OokTech/TW5-WizardWizard",
